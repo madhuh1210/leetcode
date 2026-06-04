@@ -1,0 +1,215 @@
+Since you're putting it on GitHub, keep it clean, professional, and beginner-friendly.
+
+# LeetCode 136 - Single Number (Recursion)
+
+## Problem Statement
+
+Given a non-empty array of integers `nums`, every element appears twice except for one. Find that single element.
+
+### Example
+
+```text
+Input:  [2,2,1]
+Output: 1
+
+Input:  [4,1,2,1,2]
+Output: 4
+```
+
+---
+
+## Approach
+
+This solution uses **Recursion** along with the **XOR operator**.
+
+### XOR Properties
+
+```text
+a ^ a = 0
+a ^ 0 = a
+```
+
+These properties help eliminate duplicate elements.
+
+Example:
+
+```text
+2 ^ 2 ^ 1
+
+= 0 ^ 1
+
+= 1
+```
+
+Since duplicate numbers cancel each other out, the remaining value is the unique element.
+
+---
+
+## Recursive Idea
+
+At each recursive call:
+
+1. Process the current element.
+2. Recursively process the remaining array.
+3. XOR the current element with the result returned by recursion.
+
+### Recursive Formula
+
+```text
+solve(index) =
+nums[index] ^ solve(index + 1)
+```
+
+### Base Case
+
+When all elements have been processed:
+
+```text
+index == nums.length
+```
+
+Return:
+
+```text
+0
+```
+
+because:
+
+```text
+a ^ 0 = a
+```
+
+---
+
+## Code
+
+```java
+class Solution {
+
+    public int singleNumber(int[] nums) {
+        return solve(nums, 0);
+    }
+
+    private int solve(int[] nums, int index) {
+
+        // Base Case
+        if (index == nums.length) {
+            return 0;
+        }
+
+        // Current Element XOR Remaining Elements
+        return nums[index] ^ solve(nums, index + 1);
+    }
+}
+```
+
+---
+
+## Dry Run
+
+### Input
+
+```text
+nums = [2,2,1]
+```
+
+### Recursive Calls
+
+```text
+solve(0)
+
+= 2 ^ solve(1)
+
+= 2 ^ (2 ^ solve(2))
+
+= 2 ^ (2 ^ (1 ^ solve(3)))
+
+= 2 ^ (2 ^ (1 ^ 0))
+```
+
+### Returning Back
+
+```text
+1 ^ 0 = 1
+
+2 ^ 1 = 3
+
+2 ^ 3 = 1
+```
+
+### Final Answer
+
+```text
+1
+```
+
+---
+
+## Recursion Tree
+
+```text
+solve(0)
+│
+├── 2 ^ solve(1)
+│
+├── 2 ^ solve(2)
+│
+├── 1 ^ solve(3)
+│
+└── 0   (Base Case)
+```
+
+Returning:
+
+```text
+0
+↑
+1
+↑
+3
+↑
+1
+```
+
+Final Result:
+
+```text
+1
+```
+
+---
+
+## Complexity Analysis
+
+### Time Complexity
+
+```text
+O(n)
+```
+
+Each element is visited exactly once.
+
+### Space Complexity
+
+```text
+O(n)
+```
+
+Due to the recursion call stack.
+
+---
+
+## Key Learning
+
+This problem demonstrates an important recursion pattern:
+
+```text
+Current Work + Recursive Call
+```
+
+```java
+return nums[index] ^ solve(nums, index + 1);
+```
+
+The recursion moves through the array one index at a time until it reaches the base case, then combines the results while returning back up the call stack.
