@@ -1,7 +1,7 @@
-SELECT name AS Employee
-FROM Employee e
-WHERE salary > (
-    SELECT m.salary
-    FROM Employee m
-    WHERE m.id = e.managerId
+select name as Employee
+from Employee e
+where salary> (
+    select salary
+    from Employee
+    where id = e.managerId
 );
