@@ -1,12 +1,12 @@
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        dict = {}
-        for num in nums:
-            if num in dict:
+       dict = {}
+       for ch in nums:
+            dict[ch] = dict.get(ch, 0)+1
+       for ch , value in dict.items():
+           if value > 1:
                 return True
-            dict[num] = 1
-
-        return False
+       return False
 
 
         
